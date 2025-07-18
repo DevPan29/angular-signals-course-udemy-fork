@@ -20,4 +20,12 @@ import {toObservable, toSignal, outputToObservable, outputFromObservable} from "
 })
 export class HomeComponent {
 
+  // counter = 0;
+  counter = signal(0);
+
+  increment() {
+    // this.counter++;
+    this.counter.set(this.counter() +1)
+  }
+
 }

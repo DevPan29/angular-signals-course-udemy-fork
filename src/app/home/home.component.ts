@@ -24,13 +24,21 @@ type Counter = {
 })
 export class HomeComponent {
 
-  values = signal<number[]>([0])
+  counter = signal(0);
 
-  append() {
-    this.values.update(values => ([
-      ...values,
-      values[values.length - 1] + 1
-    ]))
+  tenXCounter = computed(() => {
+    const val = this.counter();
+    return val * 10;
+  })
+
+  hundredXCounter = computed(() => {
+    const val = this.tenXCounter();
+    return val * 10;
+  })
+
+  increment() {
+
+    this.counter.update(val => val + 1);
   }
 
 }

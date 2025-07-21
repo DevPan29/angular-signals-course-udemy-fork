@@ -26,18 +26,13 @@ export class HomeComponent {
 
   counter = signal(0);
 
-  tenXCounter = computed(() => {
-    const val = this.counter();
-    return val * 10;
-  })
-
-  hundredXCounter = computed(() => {
-    const val = this.tenXCounter();
-    return val * 10;
-  })
+  constructor() {
+    effect(() => {
+      console.log(`counter value: ${this.counter()}`)
+    })
+  }
 
   increment() {
-
     this.counter.update(val => val + 1);
   }
 

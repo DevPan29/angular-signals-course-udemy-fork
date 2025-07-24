@@ -8,9 +8,6 @@ import {MessagesService} from "../messages/messages.service";
 import {catchError, from, throwError} from "rxjs";
 import {toObservable, toSignal, outputToObservable, outputFromObservable} from "@angular/core/rxjs-interop";
 
-type Counter = {
-  value: number
-}
 
 @Component({
     selector: 'home',
@@ -23,6 +20,11 @@ type Counter = {
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+
+  courses = signal<Course[]>([]);
+
+  coursesService = inject(CoursesService);
+
 
 
 }

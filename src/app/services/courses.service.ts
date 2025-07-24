@@ -11,5 +11,8 @@ import {GetCoursesResponse} from "../models/get-courses.response";
 })
 export class CoursesService {
 
+  loadAllCourses() {
+
+  }
 
 }

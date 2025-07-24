@@ -11,8 +11,9 @@ import {GetCoursesResponse} from "../models/get-courses.response";
 })
 export class CoursesService {
 
-  loadAllCourses() {
+  async loadAllCourses(): Promise<Course[]> {
 
+    return [];
   }
 
 }

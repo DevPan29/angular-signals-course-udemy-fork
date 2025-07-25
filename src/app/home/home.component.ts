@@ -1,4 +1,4 @@
-import {afterNextRender, Component, computed, effect, EffectRef, inject, Injector, signal} from '@angular/core';
+import {afterNextRender, Component, computed, effect, EffectRef, inject, Injector, OnInit, signal} from '@angular/core';
 import {CoursesService} from "../services/courses.service";
 import {Course, sortCoursesBySeqNo} from "../models/course.model";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
@@ -24,7 +24,8 @@ export class HomeComponent {
 
   courses = signal<Course[]>([]);
 
-  coursesService = inject(CoursesServiceWithFetch);
+  // coursesService = inject(CoursesServiceWithFetch);
+  coursesService = inject(CoursesService);
 
   constructor() {
     this.loadCourses()

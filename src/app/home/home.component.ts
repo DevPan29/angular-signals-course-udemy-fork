@@ -57,4 +57,11 @@ export class HomeComponent {
   }
 
 
+  onCourseUpdated(updateCourse: Course) {
+    const courses = this.#courses();
+    const newCourses = courses.map(course => (
+      course.id === updateCourse.id ? updateCourse : course
+    ))
+    this.#courses.set(newCourses);
+  }
 }

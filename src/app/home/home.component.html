@@ -2,7 +2,7 @@
 
   <h3>All Courses: </h3>
 
-  <button class="btn">
+  <button class="btn" (click)="onAddCourse()">
     Add Course
   </button>
 
@@ -13,6 +13,7 @@
 
       <courses-card-list
         (courseUpdated)="onCourseUpdated($event)"
+        (courseDeleted)="onCourseDeleted($event)"
         [courses]="beginnerCourses()"/>
 
 
@@ -22,6 +23,7 @@
 
       <courses-card-list
         (courseUpdated)="onCourseUpdated($event)"
+        (courseDeleted)="onCourseDeleted($event)"
         [courses]="advancedCourses()"/>
 
     </mat-tab>

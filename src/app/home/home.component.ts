@@ -105,9 +105,15 @@ export class HomeComponent {
   injector = inject(Injector)
 
   onToObservableExample() {
-    const courses$ = toObservable(this.#courses, {injector: this.injector});
-    courses$.subscribe(courses => {
-      console.log(`courses$`, courses)
-    })
+    const numbers = signal(0);
+    numbers.set(1)
+    numbers.set(2)
+    numbers.set(3)
+    const numbers$ = toObservable(numbers, {
+      injector: this.injector
+    });
+    numbers.set(4)
+    numbers$.subscribe(val => console.log(`numbers$: `, val));
+    numbers.set(5)
   }
 }

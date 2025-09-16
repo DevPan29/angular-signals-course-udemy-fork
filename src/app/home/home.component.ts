@@ -45,8 +45,8 @@ export class HomeComponent {
 
   constructor() {
     effect(() => {
-      console.log(`Beginner courses: `, this.beginnerCourses())
-      console.log(`Advanced courses: `, this.advancedCourses())
+      /* console.log(`Beginner courses: `, this.beginnerCourses())
+      console.log(`Advanced courses: `, this.advancedCourses()) */
     })
     this.loadCourses()
       .then(() => console.log(`All courses loaded:`, this.#courses()));
@@ -100,5 +100,14 @@ export class HomeComponent {
     ];
     this.#courses.set(newCourses);
 
+  }
+
+  injector = inject(Injector)
+
+  onToObservableExample() {
+    const courses$ = toObservable(this.#courses, {injector: this.injector});
+    courses$.subscribe(courses => {
+      console.log(`courses$`, courses)
+    })
   }
 }

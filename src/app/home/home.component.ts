@@ -1,15 +1,27 @@
-import {afterNextRender, Component, computed, effect, EffectRef, inject, Injector, OnInit, signal} from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  computed,
+  effect,
+  EffectRef,
+  inject,
+  Injector,
+  OnInit,
+  signal,
+  viewChild
+} from '@angular/core';
 import {CoursesService} from "../services/courses.service";
 import {Course, sortCoursesBySeqNo} from "../models/course.model";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MessagesService} from "../messages/messages.service";
-import {catchError, from, throwError} from "rxjs";
+import {catchError, from, interval, startWith, throwError} from "rxjs";
 import {toObservable, toSignal, outputToObservable, outputFromObservable} from "@angular/core/rxjs-interop";
 import {CoursesServiceWithFetch} from "../services/courses-fetch.service";
 import {openEditCourseDialog} from "../edit-course-dialog/edit-course-dialog.component";
 import {LoadingService} from "../loading/loading.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 
 @Component({
@@ -17,7 +29,8 @@ import {LoadingService} from "../loading/loading.service";
   imports: [
     MatTabGroup,
     MatTab,
-    CoursesCardListComponent
+    CoursesCardListComponent,
+    MatTooltip
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -44,6 +57,7 @@ export class HomeComponent {
   messageService = inject(MessagesService)
 
   constructor() {
+
     effect(() => {
       /* console.log(`Beginner courses: `, this.beginnerCourses())
       console.log(`Advanced courses: `, this.advancedCourses()) */
@@ -103,6 +117,37 @@ export class HomeComponent {
   }
 
   injector = inject(Injector)
+
+  courses$ = from(this.coursesService.loadAllCourses())
+
+  onToSignalExample() {
+    try {
+      const courses$ = from(this.coursesService.loadAllCourses())
+        .pipe(
+          catchError(err => {
+            console.log(`Error caught in catchError`, err)
+            throw err;
+          })
+        );
+      const courses = toSignal(courses$, {
+        injector: this.injector,
+      })
+      effect(() => {
+        console.log(`Courses: `, courses())
+      }, {
+        injector: this.injector
+      })
+
+      setInterval(() => {
+        console.log(`Reading courses signal: `, courses())
+      }, 1000)
+
+    }
+    catch (err) {
+      console.log(`Error in catch block: `, err)
+    }
+
+  }
 
   onToObservableExample() {
     const numbers = signal(0);

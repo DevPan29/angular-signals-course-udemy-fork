@@ -21,9 +21,28 @@ export class LessonsComponent {
 
   lessonService = inject(LessonsService);
 
-  searchInput = viewChild<ElementRef>('search');
+  searchInput = viewChild.required<ElementRef>('search');
 
-  onSearch() {
+  async onSearch() {
+    const query = this.searchInput()?.nativeElement.value;
+    console.log('search query', query)
 
+    const results = await this.lessonService.loadLessons({query});
+    this.lessons.set(results);
+  }
+
+  onLessonSelected(lesson: Lesson) {
+    this.mode.set("detail");
+    this.selectedLesson.set(lesson);
+  }
+
+  onCancel() {
+    this.mode.set("master");
+  }
+
+  onLessonUpdate(lesson: Lesson) {
+    this.lessons.update(lessons =>
+      lessons.map(l => l.id === lesson.id ? lesson : l)
+    )
   }
 }
